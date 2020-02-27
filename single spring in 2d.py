@@ -37,31 +37,13 @@ H, l, v, D = calc(R, springs)
 # In[ ]:
 
 
-H.round(3)
+plot(R, D[:3])
 
 
 # In[ ]:
 
 
-v.round(3)
-
-
-# In[ ]:
-
-
-D.round(3)
-
-
-# In[ ]:
-
-
-plot(R, v)
-
-
-# In[ ]:
-
-
-plot(R, D)
+plot(R, D[3:])
 
 
 # In[ ]:
