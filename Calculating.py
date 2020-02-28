@@ -102,14 +102,17 @@ def calc(R, springs, threshold=0.01):
     H = np.zeros((N,k,N,k))
     for i, (start, stop) in enumerate(springs):
         # strength of spring in each dimen.
-        proj = np.abs(R[stop]-R[start])
+        proj = R[stop]-R[start]
         proj /= np.linalg.norm(proj)
+        
+        #proj *= -np.sign(proj)
+        
         # force on x1 connected to x2
         #   is k(x2-x1)  
-        H[start,:,start,:] += np.eye(k)*proj
-        H[stop,:,stop,:] += np.eye(k)*proj
-        H[start,:,stop,:] += -np.eye(k)*proj
-        H[stop,:,start,:] += -np.eye(k)*proj
+        H[start,:,start,:] += np.eye(k)*proj**2
+        H[stop,:,stop,:] += np.eye(k)*proj**2
+        H[start,:,stop,:] += -np.eye(k)*proj**2
+        H[stop,:,start,:] += -np.eye(k)*proj**2
         
     H = H.reshape((N*k,N*k))
     

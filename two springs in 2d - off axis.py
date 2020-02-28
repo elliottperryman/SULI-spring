@@ -38,6 +38,12 @@ H, l, v, D = calc(R, springs)
 # In[ ]:
 
 
+l.round(3)
+
+
+# In[ ]:
+
+
 plot(R, D[:3], .5)
 
 
