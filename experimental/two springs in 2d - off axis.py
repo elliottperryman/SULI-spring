@@ -4,13 +4,13 @@
 # In[ ]:
 
 
-get_ipython().run_line_magic('run', 'Calculating.ipynb')
+get_ipython().run_line_magic('run', '../Calculating.ipynb')
 
 
 # In[ ]:
 
 
-get_ipython().run_line_magic('run', 'Plotting.ipynb')
+get_ipython().run_line_magic('run', '../Plotting.ipynb')
 
 
 # In[ ]:
