@@ -94,18 +94,6 @@ H += H.T - np.eye(H.shape[0])*np.diag(H)
 # In[ ]:
 
 
-R
-
-
-# In[ ]:
-
-
-H.round(3)
-
-
-# In[ ]:
-
-
 np.linalg.eigh(H)[0].round(2)
 
 
@@ -202,6 +190,30 @@ plt.contourf(X,Y,Z.T); plt.colorbar();
 
 
 
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+for i in range(30):
+    R = np.array([
+        [0., 0],
+        [1, i*.05],
+        [-1, i*.05],
+    ])
+
+    H, l, v, D = calc(R, springs)
+    
+    print(l.round(4))
+    
+    print('displacement',0.05*i)
+    plot(R, D[3:])
 
 
 # In[ ]:

@@ -88,7 +88,17 @@ def Energy(R, springs, displacements):
 
 
 Energy(R, springs, np.array([
-    [-1., 1],
+    [0., 0],
+    [-1, 1],
+    [1, 1]
+]))
+
+
+# In[ ]:
+
+
+Energy(R, springs, np.array([
+    [1., 1],
     [0, 0],
     [0, 0]
 ]))
@@ -226,13 +236,55 @@ H.round(3)
 # In[ ]:
 
 
-np.linalg.eigh(H)[0].round(2)
+np.linalg.eigh(-H)[0].round(2)
 
 
 # In[ ]:
 
 
 (H @ D[3].reshape(-1,1)).round(3)
+
+
+# In[ ]:
+
+
+R
+
+
+# In[ ]:
+
+
+A = np.array([0., 0, -1, 1, 1, 1])
+
+
+# In[ ]:
+
+
+A /= np.linalg.norm(A)
+
+
+# In[ ]:
+
+
+A.round(3)
+
+
+# In[ ]:
+
+
+((-H) @ A.reshape(-1,1)).round(3)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+Energy(R, springs, displacements=A.reshape(3,2))
 
 
 # In[ ]:
