@@ -10,6 +10,15 @@ import numpy as np
 # In[ ]:
 
 
+def projectOut(basis, vector):
+    projection = basis * (basis@vector)
+    vector = vector - projection
+    return vector, np.linalg.norm(vector)
+
+
+# In[ ]:
+
+
 # calc inertia axes
 def inertiaAxes3d(x,y,z):
     I = np.empty((3,3))
@@ -86,6 +95,19 @@ def zeroModes2d(R,X):
 # In[ ]:
 
 
+def potential(R, springs, displacements):
+    V = 0
+    for i, (start, stop) in enumerate(springs):
+        springVector = R[stop]-R[start]
+        moveVector = np.abs(displacements[stop]-displacements[start])
+        v = moveVector - moveVector*(moveVector@springVector)/(springVector@springVector)
+        V += .5 * 1 * (v@v)
+    return V
+
+
+# In[ ]:
+
+
 def calc(R, springs, threshold=0.01):
     
     # get parameters
@@ -102,17 +124,15 @@ def calc(R, springs, threshold=0.01):
     H = np.zeros((N,k,N,k))
     for i, (start, stop) in enumerate(springs):
         # strength of spring in each dimen.
-        proj = R[stop]-R[start]
-        proj /= np.linalg.norm(proj)
-        
-        #proj *= -np.sign(proj)
-        
+        springVector = np.abs(R[stop]-R[start])
+        springVector /= np.linalg.norm(springVector)
+                
         # force on x1 connected to x2
         #   is k(x2-x1)  
-        H[start,:,start,:] += np.eye(k)*proj**2
-        H[stop,:,stop,:] += np.eye(k)*proj**2
-        H[start,:,stop,:] += -np.eye(k)*proj**2
-        H[stop,:,start,:] += -np.eye(k)*proj**2
+        H[start,:,start,:] += np.eye(k)*springVector
+        H[stop,:,stop,:] += np.eye(k)*springVector
+        H[start,:,stop,:] += -np.eye(k)*springVector
+        H[stop,:,start,:] += -np.eye(k)*springVector
         
     H = H.reshape((N*k,N*k))
     

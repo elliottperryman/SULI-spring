@@ -17,16 +17,128 @@ get_ipython().run_line_magic('run', '../Plotting.ipynb')
 
 
 R = np.array([
-    [0., 0],
-    [1, 1],
-    [-1, 1],
+    [-1, 0],
+    [0, 0],
+    [1, 0],
 ])
 
 
 # In[ ]:
 
 
-springs = [(0,1),(0,2)]
+springs = [(0,1),(1,2)]
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [0, 1.],
+    [0, 0],
+    [0, -1],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [0, 1.],
+    [0, 1],
+    [0, 1],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [1., 0],
+    [1., 0],
+    [1., 0],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [0, 1.],
+    [0, -2.],
+    [0, 1],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [-1, 0],
+    [0, 0],
+    [1, 0.],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [1., 0],
+    [-1, 0],
+    [1, 0.],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
+
+
+# In[ ]:
+
+
+displacements = np.array([
+    [0., 0],
+    [0, 0],
+    [3, 0.],
+])
+
+
+# In[ ]:
+
+
+potential(R, springs, displacements)
 
 
 # In[ ]:

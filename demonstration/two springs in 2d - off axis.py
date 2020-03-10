@@ -56,6 +56,54 @@ plot(R, D[3:], .5)
 # In[ ]:
 
 
+l.round(2)
+
+
+# In[ ]:
+
+
+[potential(R, springs, d.reshape(-1,2)).round(3) for d in D]
+
+
+# In[ ]:
+
+
+plot(R, v, .5)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+potential(R, springs, D[-1].reshape(-1,2))
+
+
+# In[ ]:
+
+
+plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[2].reshape(-1,2)) for x in np.arange(0,1,.01)])
+
+
+# In[ ]:
+
+
+plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[-1].reshape(-1,2)) for x in np.arange(0,1,.01)])
+
+
+# In[ ]:
+
+
+plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[-2].reshape(-1,2)) for x in np.arange(0,1,.01)])
+
+
+# In[ ]:
+
+
 get_ipython().run_line_magic('matplotlib', 'inline')
 sumBasis(R,D)
 

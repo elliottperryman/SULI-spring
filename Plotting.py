@@ -59,16 +59,24 @@ def visualize_normal_modes(geometry, eigenvectors, scale=10, cols=3):
 # In[ ]:
 
 
-def plot2d(R, v, scale=.5):
+from math import ceil
 
+
+# In[ ]:
+
+
+def plot2d(R, v, scale=.5):
+    numCols = ceil(len(v)/3)
+    plt.subplots(numCols, 3, sharex=True, sharey=True, figsize=(15, 4))
     for i in range(len(v)):
+        plt.subplot(numCols, 3, i+1)
         if np.allclose(v[i], np.zeros(v.shape[1])): continue
         plt.xlim((-1.5,1.5))
         plt.ylim((-1.5,1.5))
         for j in range(len(R)):
             x, y, = R[j]
             plt.arrow(x,y, v[i,j*2]*scale, v[i,j*2+1]*scale, width=scale*.1)        
-        plt.show()
+    plt.show()
 
 
 # In[ ]:
