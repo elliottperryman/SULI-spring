@@ -45,6 +45,12 @@ plot(R, D[:6], 6)
 # In[ ]:
 
 
+l.round(3)
+
+
+# In[ ]:
+
+
 plot(R, D[6:], 10)
 
 
@@ -57,7 +63,7 @@ l.round(3)
 # In[ ]:
 
 
-plot(R, v[l<.1])
+plot(R, v[np.abs(l)<.01])
 
 
 # In[ ]:

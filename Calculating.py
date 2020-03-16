@@ -122,20 +122,27 @@ def calc(R, springs, threshold=0.01):
     
     # calculate H
     H = np.zeros((N,k,N,k))
-    for i, (start, stop) in enumerate(springs):
-        # strength of spring in each dimen.
-        springVector = np.abs(R[stop]-R[start])
-        springVector /= np.linalg.norm(springVector)
+#     for i, (start, stop) in enumerate(springs):
+#         # strength of spring in each dimen.
+#         springVector = np.abs(R[stop]-R[start])
+#         springVector /= np.linalg.norm(springVector)
                 
-        # force on x1 connected to x2
-        #   is k(x2-x1)  
-        H[start,:,start,:] += np.eye(k)*springVector
-        H[stop,:,stop,:] += np.eye(k)*springVector
-        H[start,:,stop,:] += -np.eye(k)*springVector
-        H[stop,:,start,:] += -np.eye(k)*springVector
-        
+#         # force on x1 connected to x2
+#         #   is k(x2-x1)  
+#         H[start,:,start,:] += np.eye(k)*springVector
+#         H[stop,:,stop,:] += np.eye(k)*springVector
+#         H[start,:,stop,:] += -np.eye(k)*springVector
+#         H[stop,:,start,:] += -np.eye(k)*springVector
+    for i, (start_,stop_) in enumerate(springs):
+        v = (R[stop_]-R[start_]).reshape(-1,1)
+        s = np.sign(v[0,0])
+        if s==0.: s = 1.
+        for start, stop in [(start_,stop_),(stop_,start_)]:
+            H[start,:,start,:] += v@v.T*s
+            H[stop,:,start,:] += -v@v.T*s
+
     H = H.reshape((N*k,N*k))
-    
+
     # get eigenvalues
     l, v = np.linalg.eigh(H)
     v = v.T

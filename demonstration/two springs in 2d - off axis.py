@@ -74,7 +74,7 @@ plot(R, v, .5)
 # In[ ]:
 
 
-
+H.round(3)
 
 
 # In[ ]:
