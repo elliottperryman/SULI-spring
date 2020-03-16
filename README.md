@@ -1,6 +1,7 @@
 # SULI Spring 2020 
 
 This is the work for Elliott Perryman during Spring 2020 SULI for Tess Smidt.
+The ideas and ***pretty much all of the code*** is straight from Tess Smidt: [Tess's website](https://blondegeek.github.io)
 
 ## References:
  * http://gaussian.com/vib/

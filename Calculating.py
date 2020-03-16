@@ -147,6 +147,8 @@ def calc(R, springs, threshold=0.01):
     l, v = np.linalg.eigh(H)
     v = v.T
     
+    l, v = l[l>-.01], v[l>-.01]
+    
     # move to translating and rotating frame
     if k==2:
         I = inertiaAxes2d(R[:,0], R[:,1])
