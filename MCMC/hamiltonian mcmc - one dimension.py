@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt
 
 # Target distribution is proportional to: `exp(-U)`.
 def unnormalized_log_prob(x):
-    return -(x**2) # this should be the energy function
+    return -x**2 # this should be the energy function
 
 
 # In[ ]:
@@ -83,12 +83,6 @@ s = run_chain()
 plt.hist(s.all_states.numpy(), bins=100);
 
 
-# In[ ]:
-
-
-
-
-
 # ### Now with a stronger well
 
 # In[ ]:
@@ -96,7 +90,7 @@ plt.hist(s.all_states.numpy(), bins=100);
 
 # Target distribution is proportional to: `exp(-U)`.
 def unnormalized_log_prob(x):
-    return -(x**4) # this should be the energy function
+    return -x**4 # this should be the energy function
 
 
 # In[ ]:
@@ -151,7 +145,7 @@ plt.hist(s.all_states.numpy(), bins=100);
 # Target distribution is proportional to: `exp(-U)`.
 @tf.function
 def unnormalized_log_prob(x):
-    return x**100
+    return -x**100
 
 
 # In[ ]:
@@ -159,7 +153,7 @@ def unnormalized_log_prob(x):
 
 # Initialize the HMC transition kernel.
 num_results = int(2e4)
-num_burnin_steps = int(1e3)
+num_burnin_steps = int(2e3)
 adaptive_hmc = tfp.mcmc.SimpleStepSizeAdaptation(
     tfp.mcmc.HamiltonianMonteCarlo(
         target_log_prob_fn=unnormalized_log_prob,
