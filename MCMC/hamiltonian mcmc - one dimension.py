@@ -197,3 +197,58 @@ plt.hist(s.all_states.numpy(), bins=100);
 
 
 
+
+# ### Now with a double well
+
+# In[ ]:
+
+
+# Target distribution is proportional to: `exp(-U)`.
+@tf.function
+def unnormalized_log_prob(x):
+    return -x**100
+
+
+# In[ ]:
+
+
+# Initialize the HMC transition kernel.
+num_results = int(2e4)
+num_burnin_steps = int(2e3)
+adaptive_hmc = tfp.mcmc.SimpleStepSizeAdaptation(
+    tfp.mcmc.HamiltonianMonteCarlo(
+        target_log_prob_fn=unnormalized_log_prob,
+        num_leapfrog_steps=3,
+        step_size=1.),
+    num_adaptation_steps=int(num_burnin_steps * 0.8))
+
+
+# In[ ]:
+
+
+# Run the chain (with burn-in).
+@tf.function
+def run_chain():
+    # Run the chain (with burn-in).
+    samples = tfp.mcmc.sample_chain(
+        num_results=num_results,
+        num_burnin_steps=num_burnin_steps,
+        current_state=1.,
+        kernel=adaptive_hmc,
+        return_final_kernel_results=True,
+        trace_fn=None)
+
+    return samples
+
+
+# In[ ]:
+
+
+s = run_chain()
+
+
+# In[ ]:
+
+
+plt.hist(s.all_states.numpy(), bins=100);
+

@@ -11,7 +11,13 @@ import tensorflow_probability as tfp
 # In[ ]:
 
 
-import matplotlib.pyplot as plt
+import numpy as np
+
+
+# In[ ]:
+
+
+import seaborn as sns
 
 
 # ### info from the tutorial
@@ -29,6 +35,23 @@ import matplotlib.pyplot as plt
 #     is_accepted = tf.reduce_mean(tf.cast(is_accepted, dtype=tf.float32))
 
 
+# ### defining essentials
+
+# In[ ]:
+
+
+R = np.array([
+    [0., 0.],
+    [3., 3.],
+])
+
+
+# In[ ]:
+
+
+
+
+
 # ### defining a potential function
 
 # In[ ]:
@@ -36,6 +59,8 @@ import matplotlib.pyplot as plt
 
 @tf.function
 def potential(displacements):
+    pos = tf.constant(R)
+    #springs = [(0, 1)]
     return displacements**2
 
 
@@ -94,27 +119,6 @@ s = run_chain()
 
 
 X = s.all_states.numpy()
-
-
-# In[ ]:
-
-
-import numpy as np
-
-
-# In[ ]:
-
-
-R = np.array([
-    [0., 0.],
-    [3., 3.],
-])
-
-
-# In[ ]:
-
-
-import seaborn as sns
 
 
 # In[ ]:
