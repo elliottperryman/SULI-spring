@@ -10,15 +10,6 @@ import numpy as np
 # In[ ]:
 
 
-def projectOut(basis, vector):
-    projection = basis * (basis@vector)
-    vector = vector - projection
-    return vector, np.linalg.norm(vector)
-
-
-# In[ ]:
-
-
 # calc inertia axes
 def inertiaAxes3d(x,y,z):
     I = np.empty((3,3))
@@ -95,20 +86,7 @@ def zeroModes2d(R,X):
 # In[ ]:
 
 
-def potential(R, springs, displacements):
-    V = 0
-    for i, (start, stop) in enumerate(springs):
-        springVector = R[stop]-R[start]
-        moveVector = np.abs(displacements[stop]-displacements[start])
-        v = moveVector - moveVector*(moveVector@springVector)/(springVector@springVector)
-        V += .5 * 1 * (v@v)
-    return V
-
-
-# In[ ]:
-
-
-def calc(R, springs, threshold=0.01):
+def calc(R, springs, threshold=0.0001):
     
     # get parameters
     N = R.shape[0]
@@ -133,8 +111,8 @@ def calc(R, springs, threshold=0.01):
 #         H[stop,:,stop,:] += np.eye(k)*springVector
 #         H[start,:,stop,:] += -np.eye(k)*springVector
 #         H[stop,:,start,:] += -np.eye(k)*springVector
-    for i, (start_,stop_) in enumerate(springs):
-        v = (R[stop_]-R[start_]).reshape(-1,1)
+    for i, (start_,stop_, strength) in enumerate(springs):
+        v = (strength*(R[stop_]-R[start_])).reshape(-1,1)
         s = np.sign(v[0,0])
         if s==0.: s = 1.
         for start, stop in [(start_,stop_),(stop_,start_)]:

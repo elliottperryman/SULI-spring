@@ -57,11 +57,83 @@ R = np.array([
 # In[ ]:
 
 
-@tf.function
+
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('pinfo', 'tf.norm')
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('pinfo', 'tf.unstack')
+
+
+# In[ ]:
+
+
+R.shape
+
+
+# In[ ]:
+
+
 def potential(displacements):
-    pos = tf.constant(R)
-    #springs = [(0, 1)]
-    return displacements**2
+    total = 0
+    springs = [(0,1)]
+    displacements = tf.unstack(displacements, num=2,axis=0)
+    print(displacements)
+#     for i,(start,stop) in enumerate(springs):
+#         move = R[stop]-R[start] + (displacements[stop]-displacements[start])
+#         for j in range(len(move)):
+#             total += move[i]**2
+#         total -= 1.
+    return 0.
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+potential(np.array([0, 0, 0., 0]))
+
+
+# In[ ]:
+
+
+potential([-1, -1, 1., 1])
+
+
+# In[ ]:
+
+
+potential([1, 1, 1., 1])
+
+
+# In[ ]:
+
+
+potential([1, -1, -1., 1])
+
+
+# In[ ]:
+
+
+potential([1, 1, -1., -1])
+
+
+# In[ ]:
+
+
+potential([0, 1, -1, 0.])
 
 
 # ### plug into HMCMC

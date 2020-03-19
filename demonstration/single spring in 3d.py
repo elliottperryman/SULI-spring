@@ -25,13 +25,19 @@ R = np.array([
 # In[ ]:
 
 
-springs = [(0,1)]
+springs = [(0,1,1)]
 
 
 # In[ ]:
 
 
 H, l, v, D = calc(R, springs)
+
+
+# In[ ]:
+
+
+H.round(3)
 
 
 # In[ ]:

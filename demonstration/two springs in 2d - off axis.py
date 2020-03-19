@@ -26,7 +26,7 @@ R = np.array([
 # In[ ]:
 
 
-springs = [(0,1),(0,2)]
+springs = [(0,1,1),(0,2,1)]
 
 
 # In[ ]:
@@ -38,7 +38,7 @@ H, l, v, D = calc(R, springs)
 # In[ ]:
 
 
-l.round(3)
+H.round(2)
 
 
 # In[ ]:
@@ -56,49 +56,28 @@ plot(R, D[3:], .5)
 # In[ ]:
 
 
-l.round(2)
-
-
-# In[ ]:
-
-
-[potential(R, springs, d.reshape(-1,2)).round(3) for d in D]
-
-
-# In[ ]:
-
-
 plot(R, v, .5)
 
 
 # In[ ]:
 
 
-H.round(3)
+move =  np.array([0., -2, 0, 1, 0, 1])
+move /= np.linalg.norm(move)
+move = move.reshape(-1,1)
+move.round(2)
 
 
 # In[ ]:
 
 
-potential(R, springs, D[-1].reshape(-1,2))
+(D @ move).round(2)
 
 
 # In[ ]:
 
 
-plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[2].reshape(-1,2)) for x in np.arange(0,1,.01)])
-
-
-# In[ ]:
-
-
-plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[-1].reshape(-1,2)) for x in np.arange(0,1,.01)])
-
-
-# In[ ]:
-
-
-plt.scatter(np.arange(0,1,.01), [potential(R, springs, x*D[-2].reshape(-1,2)) for x in np.arange(0,1,.01)])
+(v @ move).round(2)
 
 
 # In[ ]:

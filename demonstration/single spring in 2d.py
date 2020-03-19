@@ -31,7 +31,19 @@ springs = [(0,1)]
 # In[ ]:
 
 
+springs = [(*x,z) for (x,z) in zip(springs,np.ones(len(springs)))]
+
+
+# In[ ]:
+
+
 H, l, v, D = calc(R, springs)
+
+
+# In[ ]:
+
+
+H.round(3)
 
 
 # In[ ]:
