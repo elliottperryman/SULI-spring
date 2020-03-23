@@ -206,7 +206,12 @@ plt.hist(s.all_states.numpy(), bins=100);
 # Target distribution is proportional to: `exp(-U)`.
 @tf.function
 def unnormalized_log_prob(x):
-    return -x**100
+    a = -x**2
+    b = -(x-2)**2
+    if a<b:
+        return b
+    else:
+        return a
 
 
 # In[ ]:
@@ -251,4 +256,10 @@ s = run_chain()
 
 
 plt.hist(s.all_states.numpy(), bins=100);
+
+
+# In[ ]:
+
+
+
 
