@@ -44,6 +44,12 @@ class point(object):
         pt = point(x_diff, y_diff, z_diff)
         return pt 
     
+    def __pow__(self, scalar):
+        x_pow = self.x**scalar
+        y_pow = self.y**scalar
+        z_pow = self.z**scalar
+        return point(x_pow, y_pow, z_pow)
+    
     def __rmul__(self, scalar):
         return self.__mul__(scalar)
     
@@ -71,12 +77,16 @@ class spring(object):
     def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.relaxed_length = (end-start).dist() #+ 1.1715728752538097 # THIS IS FOR TESTING - this makes the dists ~4
+        self.relaxed_length = (end-start).dist() + 0.1715728752538097 # THIS IS FOR TESTING - this makes the dists ~4
         
     def force(self, newStart, newEnd):
         newDist = (newEnd-newStart).dist()
         force = newDist-self.relaxed_length
         forceVector = force*(newEnd-newStart)
+        # add gravity
+        gravity = point(0, 0, -2*(newEnd - newStart).z)
+        forceVector += gravity
+        
         return forceVector, -1.*forceVector
         
     def print(self):
@@ -109,7 +119,7 @@ class tetrahedron(object):
         norm = 10
         counter = 0
 
-        while counter < 200 and norm > 1e-4:
+        while counter < 20 and norm > 1e-4:
             
             counter += 1
             norm = 0.
@@ -121,8 +131,11 @@ class tetrahedron(object):
                 forces[self.indices[i][1]] += f2
 
             for i in range(len(forces)):
-                self.pts[i].move(forces[i]*.1)
+                self.pts[i].move(.1 * forces[i])
                 norm += forces[i].dist()
+            print(norm)
+        if counter == 200: 
+            raise ValueError('Could not converge to structure')
             
     def write(self, name):
         from json import dump
@@ -154,12 +167,6 @@ first = tetrahedron()
 # In[ ]:
 
 
-4. - (first.pts[0]-first.pts[1]).dist()
-
-
-# In[ ]:
-
-
 for p in first.pts:
     p.print()
 
@@ -174,6 +181,12 @@ first.sumForces()
 
 
 (first.pts[0]-first.pts[1]).dist()
+
+
+# In[ ]:
+
+
+4. - (first.pts[0]-first.pts[1]).dist()
 
 
 # In[ ]:
