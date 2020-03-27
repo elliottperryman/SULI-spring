@@ -23,11 +23,6 @@ class point(object):
         self.y = y
         self.z = z
         
-    def move(self, x, y, z):
-        self.x += x
-        self.y += y
-        self.z += z
-        
     def __sub__(self, other):
         x_diff = self.x-other.x
         y_diff = self.y-other.y
@@ -41,7 +36,7 @@ class point(object):
         z_diff = self.z+other.z
         pt = point(x_diff, y_diff, z_diff)
         return pt   
-    
+
     def __mul__(self, scalar):
         x_diff = self.x*scalar
         y_diff = self.y*scalar
@@ -52,6 +47,11 @@ class point(object):
     def __rmul__(self, scalar):
         return self.__mul__(scalar)
     
+    def move(self, pt):
+        self.x += pt.x
+        self.y += pt.y
+        self.z += pt.z
+        
     def dist(self):
         a = np.array([self.x,self.y,self.z],
                      dtype=np.float64)
@@ -69,9 +69,9 @@ class point(object):
 
 class spring(object):
     def __init__(self, start, end):
-        self.start = *start
-        self.end = *end
-        self.relaxed_length = (end-start).dist()*2 # THIS IS FOR TESTING
+        self.start = start
+        self.end = end
+        self.relaxed_length = (end-start).dist() #+ 1.1715728752538097 # THIS IS FOR TESTING - this makes the dists ~4
         
     def force(self, newStart, newEnd):
         newDist = (newEnd-newStart).dist()
@@ -103,32 +103,26 @@ class tetrahedron(object):
             (2,3),
         ]
         self.pts = [point(*x) for x in locs]
-        self.springs = [spring(self.pts[x[0]],self.pts[x[1]]) for x in self.indices]
+        self.springs = [spring(self.pts[start],self.pts[end]) for (start,end) in self.indices]
         
     def sumForces(self):
         norm = 10
         counter = 0
-        while norm > 2 and counter < 10:
+
+        while counter < 200 and norm > 1e-4:
+            
             counter += 1
             norm = 0.
             forces = [point(0,0,0) for i in range(len(self.pts))]
+
             for i in range(len(self.springs)):
-                self.springs[i].start.print()
                 f1,f2 = self.springs[i].force(self.springs[i].start, self.springs[i].end)            
                 forces[self.indices[i][0]] += f1
                 forces[self.indices[i][1]] += f2
 
             for i in range(len(forces)):
-                self.pts[i] += forces[i]*.1
+                self.pts[i].move(forces[i]*.1)
                 norm += forces[i].dist()
-
-            print('at iter ',counter,' pts are at:')
-            for i in range(len(forces)):
-                #forces[i].print()
-                self.pts[i].print()
-                pass
-            print(norm.round(2))
-            pass
             
     def write(self, name):
         from json import dump
@@ -160,13 +154,33 @@ first = tetrahedron()
 # In[ ]:
 
 
+4. - (first.pts[0]-first.pts[1]).dist()
+
+
+# In[ ]:
+
+
+for p in first.pts:
+    p.print()
+
+
+# In[ ]:
+
+
 first.sumForces()
 
 
 # In[ ]:
 
 
+(first.pts[0]-first.pts[1]).dist()
 
+
+# In[ ]:
+
+
+for p in first.pts:
+    p.print()
 
 
 # In[ ]:
@@ -198,19 +212,19 @@ s.print()
 # In[ ]:
 
 
-rm /Users/elliottperryman/junk.json
+rm junk.json
 
 
 # In[ ]:
 
 
-first.write('/Users/elliottperryman/junk.json')
+first.write('./junk.json')
 
 
 # In[ ]:
 
 
-cat /Users/elliottperryman/junk.json
+cat junk.json
 
 
 # ### I should see the forces on the spring start and end behaving sensibly
